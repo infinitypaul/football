@@ -17,8 +17,8 @@ class CreateGamesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('home_id')->index();
             $table->unsignedBigInteger('season_id')->index();
-            $table->unsignedBigInteger('home_goal');
-            $table->unsignedBigInteger('away_goal');
+            $table->unsignedBigInteger('home_goal')->default(0);
+            $table->unsignedBigInteger('away_goal')->default(0);
             $table->unsignedBigInteger('away_id')->index();
             $table->string('referee');
             $table->integer('week');
