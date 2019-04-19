@@ -62,11 +62,11 @@
                     </div>
                 </div>
                 <div class="card-footer text-muted">
-                    <a v-if="Object.keys(filteredRecords).length == week && week != 6" class="float-left" id="playall" href="#" @click.prevent="moveToNextWeek(+week + +1)">
+                    <a v-if="Object.keys(filteredRecords).length == week && week != 6" class="float-left" id="playall" href="#" @click.prevent="moveToNextWeek({week:+week + +1, play:'all'})">
                         Play All
                     </a>
                     <span v-if="!loading">
-                        <a v-if="Object.keys(filteredRecords).length == week && week != 6" class="float-right" id="new_week" href="#" @click.prevent="moveToNextWeek(+week + +1)">
+                        <a v-if="Object.keys(filteredRecords).length == week && week != 6" class="float-right" id="new_week" href="#" @click.prevent="moveToNextWeek({week:+week + +1})">
                             Next Week
                         </a>
                     </span>
@@ -96,7 +96,7 @@
                                 </li>
                 </span>
                 <span v-if="!loading">
-                <a href="#" v-if="id !== ''" @click.prevent="moveToNextWeek(1)" class="btn btn-info float-right mt-2">
+                <a href="#" v-if="id !== ''" @click.prevent="moveToNextWeek({'week':1})" class="btn btn-info float-right mt-2">
                     Play First Match
                 </a>
                     </span>
@@ -170,9 +170,11 @@
                         })
                 }
             },
-            moveToNextWeek(week){
-                this.loading = true;
-                axios.post('/nextmove/'+this.id, {'week':week})
+            moveToNextWeek(data){
+                //this.loading = true;
+                console.log(data);
+                //return
+                axios.post('/nextmove/'+this.id, data)
                     .then((response)=>{
                         this.getRecords();
                         this.loading = false;
@@ -181,13 +183,6 @@
                         console.log(err)
                         this.loading = false;
                     })
-            },
-            getSize(obj){
-                    var size = 0, key;
-                    for (key in obj) {
-                        if (obj.hasOwnProperty(key)) size++;
-                    }
-                    return size;
             }
         },
         mounted() {

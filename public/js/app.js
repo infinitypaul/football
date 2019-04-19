@@ -1940,13 +1940,13 @@ __webpack_require__.r(__webpack_exports__);
         });
       }
     },
-    moveToNextWeek: function moveToNextWeek(week) {
+    moveToNextWeek: function moveToNextWeek(data) {
       var _this2 = this;
 
-      this.loading = true;
-      axios.post('/nextmove/' + this.id, {
-        'week': week
-      }).then(function (response) {
+      //this.loading = true;
+      console.log(data); //return
+
+      axios.post('/nextmove/' + this.id, data).then(function (response) {
         _this2.getRecords();
 
         _this2.loading = false;
@@ -1954,16 +1954,6 @@ __webpack_require__.r(__webpack_exports__);
         console.log(err);
         _this2.loading = false;
       });
-    },
-    getSize: function getSize(obj) {
-      var size = 0,
-          key;
-
-      for (key in obj) {
-        if (obj.hasOwnProperty(key)) size++;
-      }
-
-      return size;
     }
   },
   mounted: function mounted() {
@@ -38046,7 +38036,10 @@ var render = function() {
                           on: {
                             click: function($event) {
                               $event.preventDefault()
-                              return _vm.moveToNextWeek(+week + +1)
+                              return _vm.moveToNextWeek({
+                                week: +week + +1,
+                                play: "all"
+                              })
                             }
                           }
                         },
@@ -38070,7 +38063,9 @@ var render = function() {
                                 on: {
                                   click: function($event) {
                                     $event.preventDefault()
-                                    return _vm.moveToNextWeek(+week + +1)
+                                    return _vm.moveToNextWeek({
+                                      week: +week + +1
+                                    })
                                   }
                                 }
                               },
@@ -38166,7 +38161,7 @@ var render = function() {
                               on: {
                                 click: function($event) {
                                   $event.preventDefault()
-                                  return _vm.moveToNextWeek(1)
+                                  return _vm.moveToNextWeek({ week: 1 })
                                 }
                               }
                             },

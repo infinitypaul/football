@@ -23,7 +23,12 @@ class FixtureController extends Controller
         if($season->game->sum('played') >= 12){
             return false;
         }
-        $games  = $season->game()->where([['week', $request->week],['played', 0]])->get();
+        if($request->filled('play')){
+            $games  = $season->game()->where('played', 0)->get();
+        } else {
+            $games  = $season->game()->where([['week', $request->week],['played', 0]])->get();
+        }
+
         //dd($games);
         foreach ($games as $game){
             $homeStrength = $game->home->strength;
@@ -43,13 +48,34 @@ class FixtureController extends Controller
             //dd($game->home->standing);
             if(!is_null($game->home->standing)){
                 $away = $game->away->standing()->latest()->first();
-                $this->updateStanding($away, $season->id, $request->week, $won, 'away');
+                $this->updateStanding(
+                    $away,
+                    $season->id,
+                    $request->filled('play')? $game->week :$request->week,
+                    $won,
+                    'away');
 
                 $home = $game->home->standing()->latest()->first();
-                $this->updateStanding($home, $season->id, $request->week, $won, 'home');
+                $this->updateStanding(
+                    $home,
+                    $season->id,
+                    $request->filled('play')? $game->week :$request->week,
+                    $won,
+                    'home'
+                );
             }else {
-                $this->enterStanding($game, $season->id, $request->week, $won, 'home');
-                $this->enterStanding($game, $season->id, $request->week, $won, 'away');
+                $this->enterStanding(
+                    $game,
+                    $season->id,
+                    $request->filled('play')? $game->week :$request->week,
+                    $won,
+                    'home');
+                $this->enterStanding(
+                    $game,
+                    $season->id,
+                    $request->filled('play')? $game->week :$request->week,
+                    $won,
+                    'away');
             }
 
         }
