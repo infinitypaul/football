@@ -38082,7 +38082,7 @@ var render = function() {
                             )
                           : _vm._e()
                       ])
-                    : _c("span", [
+                    : _c("span", { staticClass: "float-right" }, [
                         _vm._v(
                           "\n                    Loading\n                "
                         )

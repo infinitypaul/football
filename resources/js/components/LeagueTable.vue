@@ -70,7 +70,7 @@
                             Next Week
                         </a>
                     </span>
-                    <span v-else>
+                    <span class="float-right" v-else>
                         Loading
                     </span>
                 </div>
