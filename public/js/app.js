@@ -1880,8 +1880,8 @@ __webpack_require__.r(__webpack_exports__);
   name: "LeagueTable",
   data: function data() {
     return {
+      loading: false,
       response: {
-        loading: false,
         league: {
           'data': []
         },

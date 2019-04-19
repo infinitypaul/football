@@ -116,8 +116,8 @@
         name: "LeagueTable",
         data(){
             return {
+                loading:false,
                 response:{
-                    loading:false,
                     league : {
                         'data': []
                     },
