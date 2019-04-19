@@ -18,6 +18,7 @@ class CreateStandingsTable extends Migration
             $table->unsignedBigInteger('season_id')->index();
             $table->unsignedBigInteger('team_id')->index();
             $table->integer('week');
+            $table->integer('pts');
             $table->integer('p');
             $table->integer('w');
             $table->integer('d');
