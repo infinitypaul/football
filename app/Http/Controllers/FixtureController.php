@@ -13,6 +13,7 @@ class FixtureController extends Controller
 
     public function __construct()
     {
+        $this->middleware('auth');
         $this->lowScore = lowScore();
         $this->highScore = highScore();
     }
