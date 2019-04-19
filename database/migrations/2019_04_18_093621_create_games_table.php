@@ -16,15 +16,20 @@ class CreateGamesTable extends Migration
         Schema::create('games', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('home_id')->index();
+            $table->unsignedBigInteger('season_id')->index();
             $table->unsignedBigInteger('home_goal')->index();
             $table->unsignedBigInteger('away_goal')->index();
             $table->unsignedBigInteger('away_id')->index();
+            $table->string('referee');
+            $table->integer('week');
             $table->boolean('played')->default(false);
             $table->date('date_played');
+            $table->time('time_played');
             $table->timestamps();
 
             $table->foreign('home_id')->references('id')->on('teams')->onDelete('cascade');
             $table->foreign('away_id')->references('id')->on('teams')->onDelete('cascade');
+            $table->foreign('season_id')->references('id')->on('seasons')->onDelete('cascade');
         });
     }
 
