@@ -1866,12 +1866,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['id'],
   name: "LeagueTable",
   data: function data() {
     return {
       response: {
+        loading: false,
         league: {
           'data': []
         },
@@ -1917,12 +1927,16 @@ __webpack_require__.r(__webpack_exports__);
     getRecords: function getRecords() {
       var _this = this;
 
+      this.loading = true;
+
       if (this.id) {
         return axios.get('/getseason/' + this.id).then(function (response) {
           _this.response = response.data.data;
           console.log(response);
+          _this.loading = false;
         })["catch"](function (err) {
           console.log(err);
+          _this.loading = false;
         });
       }
     },
@@ -38040,26 +38054,35 @@ var render = function() {
                       )
                     : _vm._e(),
                   _vm._v(" "),
-                  Object.keys(_vm.filteredRecords).length == week && week != 6
-                    ? _c(
-                        "a",
-                        {
-                          staticClass: "float-right",
-                          attrs: { id: "new_week", href: "#" },
-                          on: {
-                            click: function($event) {
-                              $event.preventDefault()
-                              return _vm.moveToNextWeek(+week + +1)
-                            }
-                          }
-                        },
-                        [
-                          _vm._v(
-                            "\n                    Next Week\n                "
-                          )
-                        ]
-                      )
-                    : _vm._e()
+                  !_vm.loading
+                    ? _c("span", [
+                        Object.keys(_vm.filteredRecords).length == week &&
+                        week != 6
+                          ? _c(
+                              "a",
+                              {
+                                staticClass: "float-right",
+                                attrs: { id: "new_week", href: "#" },
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.moveToNextWeek(+week + +1)
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                        Next Week\n                    "
+                                )
+                              ]
+                            )
+                          : _vm._e()
+                      ])
+                    : _c("span", [
+                        _vm._v(
+                          "\n                    Loading\n                "
+                        )
+                      ])
                 ])
               ])
             ])
@@ -38128,26 +38151,32 @@ var render = function() {
                   ])
                 }),
                 _vm._v(" "),
-                _vm.id !== ""
-                  ? _c(
-                      "a",
-                      {
-                        staticClass: "btn btn-info float-right mt-2",
-                        attrs: { href: "#" },
-                        on: {
-                          click: function($event) {
-                            $event.preventDefault()
-                            return _vm.moveToNextWeek(1)
-                          }
-                        }
-                      },
-                      [
-                        _vm._v(
-                          "\n                Play First Match\n            "
-                        )
-                      ]
-                    )
-                  : _vm._e()
+                !_vm.loading
+                  ? _c("span", [
+                      _vm.id !== ""
+                        ? _c(
+                            "a",
+                            {
+                              staticClass: "btn btn-info float-right mt-2",
+                              attrs: { href: "#" },
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  return _vm.moveToNextWeek(1)
+                                }
+                              }
+                            },
+                            [
+                              _vm._v(
+                                "\n                Play First Match\n            "
+                              )
+                            ]
+                          )
+                        : _vm._e()
+                    ])
+                  : _c("span", [
+                      _vm._v("\n                Loading....\n            ")
+                    ])
               ],
               2
             )

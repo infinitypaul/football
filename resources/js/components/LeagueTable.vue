@@ -65,10 +65,14 @@
                     <a v-if="Object.keys(filteredRecords).length == week && week != 6" class="float-left" id="playall" href="#" @click.prevent="moveToNextWeek(+week + +1)">
                         Play All
                     </a>
-
-                    <a v-if="Object.keys(filteredRecords).length == week && week != 6" class="float-right" id="new_week" href="#" @click.prevent="moveToNextWeek(+week + +1)">
-                        Next Week
-                    </a>
+                    <span v-if="!loading">
+                        <a v-if="Object.keys(filteredRecords).length == week && week != 6" class="float-right" id="new_week" href="#" @click.prevent="moveToNextWeek(+week + +1)">
+                            Next Week
+                        </a>
+                    </span>
+                    <span v-else>
+                        Loading
+                    </span>
                 </div>
             </div>
         </div>
@@ -91,9 +95,14 @@
                                     </div>
                                 </li>
                 </span>
+                <span v-if="!loading">
                 <a href="#" v-if="id !== ''" @click.prevent="moveToNextWeek(1)" class="btn btn-info float-right mt-2">
                     Play First Match
                 </a>
+                    </span>
+                <span v-else>
+                    Loading....
+                </span>
             </ul>
 
         </div>
@@ -108,6 +117,7 @@
         data(){
             return {
                 response:{
+                    loading:false,
                     league : {
                         'data': []
                     },
@@ -146,14 +156,17 @@
         },
         methods:{
             getRecords(){
+                this.loading = true;
                 if(this.id){
                     return axios.get('/getseason/'+this.id)
                         .then((response)=>{
                             this.response = response.data.data;
-                            console.log(response)
+                            console.log(response);
+                            this.loading = false;
                         })
                         .catch((err)=>{
-                            console.log(err)
+                            console.log(err);
+                            this.loading = false;
                         })
                 }
             },
