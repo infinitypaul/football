@@ -1943,12 +1943,16 @@ __webpack_require__.r(__webpack_exports__);
     moveToNextWeek: function moveToNextWeek(week) {
       var _this2 = this;
 
+      this.loading = true;
       axios.post('/nextmove/' + this.id, {
         'week': week
       }).then(function (response) {
         _this2.getRecords();
+
+        _this2.loading = false;
       })["catch"](function (err) {
         console.log(err);
+        _this2.loading = false;
       });
     },
     getSize: function getSize(obj) {

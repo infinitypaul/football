@@ -171,12 +171,15 @@
                 }
             },
             moveToNextWeek(week){
+                this.loading = true;
                 axios.post('/nextmove/'+this.id, {'week':week})
                     .then((response)=>{
-                        this.getRecords()
+                        this.getRecords();
+                        this.loading = false;
                     })
                     .catch((err)=>{
                         console.log(err)
+                        this.loading = false;
                     })
             },
             getSize(obj){
